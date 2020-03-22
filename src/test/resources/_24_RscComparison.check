@@ -1,0 +1,8 @@
+package <empty> {
+  class C extends scala.AnyRef {
+    def <init>(): C = droppped;
+    private[this] val foo: Int = droppped;
+    <stable> <accessor> def foo: Int = C.this.foo;
+    def bar: String = droppped
+  }
+}

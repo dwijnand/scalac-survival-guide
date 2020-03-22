@@ -1,0 +1,20 @@
+Eliding related method for value i in class D, as it is an alias for value i in class C / val i: Int
+package <empty> {
+  class C extends Object {
+    <paramaccessor> private[this] val i: Int = _;
+    <synthetic> <stable> def i$extraMethod(): Int = C.this.i;
+    <stable> <accessor> <paramaccessor> def i(): Int = C.this.i;
+    def <init>(i: Int): C = {
+      C.this.i = i;
+      C.super.<init>();
+      ()
+    }
+  };
+  class D extends C {
+    override <stable> <accessor> <paramaccessor> def i(): Int = (D.super.i(): Int);
+    def <init>(i: Int): D = {
+      D.super.<init>(i);
+      ()
+    }
+  }
+}

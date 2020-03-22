@@ -1,12 +1,14 @@
 package guide
 
+import scala.language.existentials
+
 object _04_TypesAndSymbols extends App {
   val global = newGlobal()
   new global.Run
   import global._
 
   def symbols = {
-    ===("Types, Symbols, too)")
+    ===("Types & Symbols")
     p("// All declarations / definitions give rise to a Symbol.")
     val result = compile("class C { def foo = 42; def bar(x: Int) = foo }", global)
     result.tree.collect { case dt: DefTree => p(dt.symbol.defString) }
@@ -26,18 +28,18 @@ object _04_TypesAndSymbols extends App {
     p("// After DefDef, ValDef, ClassDef, ModuleDef, PackageDef trees hold the symbol entity they define")
     p(result.tree.collect { case rt: DefTree => (rt.productPrefix, rt.symbol.name) })
   }
+
   def types = {
     p("// like symbols, many common types are available in definitions")
     p(definitions.IntTpe)
     p(definitions.IntClass.tpeHK)
-    p("// This is a TypeRef, which enapsulates a prefix, an symbol, and a list of type arguments")
+    p("// This is a TypeRef, which encapsulates a prefix, an symbol, and a list of type arguments")
     p(showRaw(definitions.IntTpe))
     definitions.init()
     p("// Types can also be summoned with the `typeOf` macro")
     p(List(typeOf[Int], typeOf[List[String]], typeOf[x.type forSome { val x : String with Int }]))
     p("// Types have members")
     p(typeOf[Int].members.take(5))
-
   }
 
   symbols

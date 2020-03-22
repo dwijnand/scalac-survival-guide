@@ -1,0 +1,107 @@
+[475:501][475:491]scala.Some.apply[String]("x").exists([492:500](([492]x$1: [492]String) => [492:500][492:496]x1$macro$2.==([497:500]"x")))
+<475:501>{
+  <475:491><synthetic> val qual$macro$1: [485]Some[String] @scala.reflect.internal.annotations.uncheckedBounds = [475:484][475:479][475:479]scala.Some.apply[[475]String]([480:483]"x");
+  <475:501>if ([491]qual$macro$1.isDefined)
+    <475:501>{
+      <475:501><synthetic> val x1$macro$2: [491]String = <475:501>qual$macro$1.get;
+      [492:500][492:496]x1$macro$2.==([497:500]"x")
+    }
+  else
+    [491]false
+}
+[524:550][524:540]scala.Some.apply[String]("x").exists([541:549](([541]x$2: [541]String) => [541:549][541:545]x1$macro$4.==([546:549]"y")))
+<524:550>{
+  <524:540><synthetic> val qual$macro$3: [534]Some[String] @scala.reflect.internal.annotations.uncheckedBounds = [524:533][524:528][524:528]scala.Some.apply[[524]String]([529:532]"x");
+  <524:550>if ([540]qual$macro$3.isDefined)
+    <524:550>{
+      <524:550><synthetic> val x1$macro$4: [540]String = <524:550>qual$macro$3.get;
+      [541:549][541:545]x1$macro$4.==([546:549]"y")
+    }
+  else
+    [540]false
+}
+[573:595][573:584]scala.None.exists([585:594](([585]x$3: [585]Nothing) => [585:594][585:589]x1$macro$6.==([590:594]true)))
+<573:595>{
+  <573:584><synthetic> val qual$macro$5: [578]None.type @scala.reflect.internal.annotations.uncheckedBounds = [573:577]scala.None;
+  <573:595>if ([584]qual$macro$5.isDefined)
+    <573:595>{
+      <573:595><synthetic> val x1$macro$6: [584]Nothing = <573:595>qual$macro$5.get;
+      [585:594][585:589]x1$macro$6.==([590:594]true)
+    }
+  else
+    [584]false
+}
+[[syntax trees at end of                     typer]] // <console>
+package <empty> {
+  import scala.language.experimental._;
+  class C extends scala.AnyRef {
+    def <init>(): C = {
+      C.super.<init>();
+      ()
+    };
+    private[this] var x: String = "x";
+    <accessor> def x: String = C.this.x;
+    <accessor> def x_=(x$1: String): Unit = C.this.x = x$1;
+    @scala.reflect.macros.internal.macroImpl(`macro`("macroEngine" = "v7.0 (implemented in Scala 2.11.0-M8)", "isBundle" = false, "isBlackbox" = true, "className" = "guide.InlineMacro$", "methodName" = "inlineMap", "signature" = List(List(-1), List(-3)))) <macro> def inline[T](t: T): T = guide.InlineMacro.inlineMap;
+    def foo(a: Option[String]): Option[String] = ({
+      <synthetic> val qual$macro$1: a.type @scala.reflect.internal.annotations.uncheckedBounds = a;
+      if (qual$macro$1.isDefined)
+        scala.Some.apply({
+          <synthetic> val x1$macro$2: String = qual$macro$1.get;
+          {
+            def foo: String = C.this.x;
+            foo.toString().+("-").+(x1$macro$2)
+          }
+        })
+      else
+        None
+    }: Option[String]);
+    def bar(a: Option[String]): Any = ({
+      <synthetic> val qual$macro$1: Any = a;
+      if (qual$macro$1.isDefined)
+        {
+          <synthetic> val x1$macro$2: String = qual$macro$1.get;
+          x1$macro$2
+        }
+      else
+        0
+    }: Any);
+    def test(): Unit = {
+      scala.Predef.assert(C.this.foo(scala.Some.apply[String]("y")).==(scala.Some.apply[String]("x-y")));
+      scala.Predef.assert(C.this.foo(scala.None).==(scala.None));
+      scala.Predef.assert(C.this.bar(scala.Some.apply[String]("z")).==("z"));
+      scala.Predef.assert(C.this.bar(scala.None).==(0));
+      scala.Predef.assert(({
+        <synthetic> val qual$macro$1: Some[String] @scala.reflect.internal.annotations.uncheckedBounds = scala.Some.apply[String]("x");
+        if (qual$macro$1.isDefined)
+          {
+            <synthetic> val x1$macro$2: String = qual$macro$1.get;
+            x1$macro$2.==("x")
+          }
+        else
+          false
+      }: Boolean));
+      scala.Predef.assert(({
+  <synthetic> val qual$macro$3: Some[String] @scala.reflect.internal.annotations.uncheckedBounds = scala.Some.apply[String]("x");
+  if (qual$macro$3.isDefined)
+    {
+      <synthetic> val x1$macro$4: String = qual$macro$3.get;
+      x1$macro$4.==("y")
+    }
+  else
+    false
+}: Boolean).unary_!);
+      scala.Predef.assert(({
+  <synthetic> val qual$macro$5: None.type @scala.reflect.internal.annotations.uncheckedBounds = scala.None;
+  if (qual$macro$5.isDefined)
+    {
+      <synthetic> val x1$macro$6: Nothing = qual$macro$5.get;
+      x1$macro$6.==(true)
+    }
+  else
+    false
+}: Boolean).unary_!)
+    }
+  }
+}
+

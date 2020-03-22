@@ -15,7 +15,7 @@ object _02_HelloWorld extends App {
   p(showRaw(tree))
   p("// show: view as something like source code")
   p(show(tree))
-  p("// showCode: source code that could be reparsed")
+  p("// showCode: source code that could be re-parsed")
   p(showCode(tree))
 
   ===("Tree, meet types")

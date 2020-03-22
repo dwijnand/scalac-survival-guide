@@ -1,0 +1,12 @@
+
+
+=================================== Own Goals ===================================
+
+
+typer
+method test
+List(value xxx, method test, class C, package <empty>, package <root>)
+
+uncurry
+method $anonfun$test
+List(value xxx, method $anonfun$test, method test, class C, package <empty>, package <root>)

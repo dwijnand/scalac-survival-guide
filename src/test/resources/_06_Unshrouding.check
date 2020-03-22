@@ -1,0 +1,194 @@
+
+
+=========================== Unshrouding type checking ===========================
+
+
+// Q. Okay, so was that some sort of compiler builtin? Or a macro?
+// A. Trace the typechecker output. The easy way would be to compile a file with -Ytyper-debug
+//    But rather than heading to a terminal, lets do it the hard way
+// Let's start a fully fledged compiler (rather than the toolbox compiler we used earlier)
+// Meaning: Use the classpath of the JVM as the classpath of the compiler, print the AST after the parser and typer phase,
+//          trace the internal operation of the typechecker, log macro expansions
+[[syntax trees at end of                    parser]] // <console>
+package <empty> {
+  class Wrap extends scala.AnyRef {
+    def <init>() = {
+      super.<init>();
+      ()
+    };
+    import scala.reflect.runtime.universe._;
+    def test(t: Tree) = StringContext("println(", ")").q(t)
+  }
+}
+
+|-- <empty> EXPRmode-POLYmode-QUALmode (site: package <root>) 
+|    \-> <empty>.type
+|-- class Wrap BYVALmode-EXPRmode (site: package <empty>) 
+|    |-- super EXPRmode-POLYmode-QUALmode (silent: <init> in Wrap) 
+|    |    |-- this EXPRmode (silent: <init> in Wrap) 
+|    |    |    \-> Wrap
+|    |    \-> Wrap.super.type (with underlying type AnyRef)
+|    |-- scala.reflect.runtime.universe EXPRmode-POLYmode-QUALmode (site: class Wrap) 
+|    |    |-- scala.reflect.runtime EXPRmode-POLYmode-QUALmode (site: class Wrap) 
+|    |    |    |-- scala.reflect EXPRmode-POLYmode-QUALmode (site: class Wrap) 
+|    |    |    |    |-- scala EXPRmode-POLYmode-QUALmode (site: class Wrap) 
+|    |    |    |    |    \-> scala.type
+|    |    |    |    \-> reflect.type
+|    |    |    \-> reflect.runtime.type
+|    |    |-- scala.reflect.runtime.`package` EXPRmode-POLYmode-QUALmode (silent: class Wrap) 
+|    |    |    \-> reflect.runtime.type
+|    |    \-> reflect.runtime.universe.type (with underlying type scala.reflect.api.JavaUniverse)
+|    |-- def test BYVALmode-EXPRmode (site: class Wrap) 
+|    |    |-- Tree TYPEmode (site: value t in Wrap) 
+|    |    |    \-> reflect.runtime.universe.Tree
+|    |    |-- StringContext("println(", ")").q(t) EXPRmode (site: method test in Wrap) 
+|    |    |    |-- StringContext("println(", ")").q BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |-- StringContext("println(", ")") EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |-- StringContext BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |-- scala.StringContext.apply BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    \-> (parts: String*)StringContext
+|    |    |    |    |    |    [adapt] StringContext.type adapted to (parts: String*)StringContext
+|    |    |    |    |    |    \-> (parts: String*)StringContext
+|    |    |    |    |    |-- "println(" : pt=String BYVALmode-EXPRmode (silent: method test in Wrap) 
+|    |    |    |    |    |    \-> String("println(")
+|    |    |    |    |    |-- ")" : pt=String BYVALmode-EXPRmode (silent: method test in Wrap) 
+|    |    |    |    |    |    \-> String(")")
+|    |    |    |    |    \-> StringContext
+|    |    |    |    [search #1] start `(parts: String*)StringContext`, searching for adaptation to pt=StringContext => ?{def q: ?} (silent: method test in Wrap) implicits disabled
+|    |    |    |    [search #1] considering Quasiquote
+|    |    |    |    |-- Quasiquote BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) implicits disabled
+|    |    |    |    |    \-> (ctx: StringContext)reflect.runtime.universe.Quasiquote
+|    |    |    |    [adapt] Quasiquote adapted to (ctx: StringContext)Quasiquotes.this.Quasiquote based on pt StringContext => ?{def q: ?}
+|    |    |    |    [search #1] success inferred value of type StringContext => ?{def q: ?} is SearchResult(scala.reflect.runtime.`package`.universe.Quasiquote, )
+|    |    |    |    |-- (ctx: StringContext)Quasiquotes.this.Quasiquote EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    \-> reflect.runtime.universe.Quasiquote
+|    |    |    |    |-- scala.reflect.runtime.`package`.universe.Quasiquote(scala... BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.Quasiquote(scala... BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    [adapt] [A >: Any](args: A*)Quasiquotes.this.Tree adapted to [A >: Any](args: A*)Quasiquotes.this.Tree
+|    |    |    |    |    |    \-> (args: A*)reflect.runtime.universe.Tree
+|    |    |    |    |    [adapt] Quasiquote.this.q.type adapted to [A >: Any](args: A*)Quasiquotes.this.Tree
+|    |    |    |    |    \-> (args: A*)reflect.runtime.universe.Tree
+|    |    |    |    \-> (args: A*)reflect.runtime.universe.Tree
+|    |    |    |-- t BYVALmode-EXPRmode-POLYmode (site: method test in Wrap) 
+|    |    |    |    \-> reflect.runtime.universe.Tree
+|    |    |    solving for (A: ?A)
+performing macro expansion scala.reflect.runtime.`package`.universe.Quasiquote(scala.StringContext.apply("println(", ")")).q.apply[Any](t) at source-<console>,line-1,offset=74
+scala.reflect.runtime.`package`.universe.internal.reificationSupport.SyntacticApplied(scala.reflect.runtime.`package`.universe.internal.reificationSupport.SyntacticTermIdent(scala.reflect.runtime.`package`.universe.TermName("println"), false), scala.collection.immutable.List(scala.collection.immutable.List(t)))
+Apply(Select(Select(Select(Select(Select(Select(Select(Ident(scala), scala.reflect), scala.reflect.runtime), scala.reflect.runtime.package), TermName("universe")), TermName("internal")), TermName("reificationSupport")), TermName("SyntacticApplied")), List(Apply(Select(Select(Select(Select(Select(Select(Select(Ident(scala), scala.reflect), scala.reflect.runtime), scala.reflect.runtime.package), TermName("universe")), TermName("internal")), TermName("reificationSupport")), TermName("SyntacticTermIdent")), List(Apply(Select(Select(Select(Select(Select(Ident(scala), scala.reflect), scala.reflect.runtime), scala.reflect.runtime.package), TermName("universe")), TermName("TermName")), List(Literal(Constant("println")))), Literal(Constant(false)))), Apply(Select(Select(Select(Ident(TermName("scala")), TermName("collection")), TermName("immutable")), TermName("List")), List(Apply(Select(Select(Select(Ident(TermName("scala")), TermName("collection")), TermName("immutable")), TermName("List")), List(Ident(TermName("t"))))))))
+|    |    |    |-- scala.reflect.runtime.`package`.universe.internal.reifica... EXPRmode (site: method test in Wrap) 
+|    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal.reifica... BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal.reifica... EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    \-> reflect.runtime.universe.internal.type (with underlying type reflect.runtime.universe.Internal)
+|    |    |    |    |    |    \-> reflect.runtime.universe.internal.reificationSupport.type (with underlying type reflect.runtime.universe.ReificationSupportApi)
+|    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal.reifica... BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    \-> (tree: reflect.runtime.universe.Tree, argss: List[List[reflect.runtime.universe.Tree]])reflect.runtime.universe.Tree
+|    |    |    |    |    [adapt] => ReificationSupportApi.this.SyntacticAppliedExtractor adapted to (tree: Internals.this.Tree, argss: List[List[Internals.th...
+|    |    |    |    |    \-> (tree: reflect.runtime.universe.Tree, argss: List[List[reflect.runtime.universe.Tree]])reflect.runtime.universe.Tree
+|    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal.reifica... : pt=reflect.runtime.universe.Tree BYVALmode-EXPRmode (silent: method test in Wrap) 
+|    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal.reifica... BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal.reifica... EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |    \-> reflect.runtime.universe.internal.type (with underlying type reflect.runtime.universe.Internal)
+|    |    |    |    |    |    |    \-> reflect.runtime.universe.internal.reificationSupport.type (with underlying type reflect.runtime.universe.ReificationSupportApi)
+|    |    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.internal.reifica... BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    \-> (name: reflect.runtime.universe.TermName, isBackquoted: Boolean)reflect.runtime.universe.Ident
+|    |    |    |    |    |    [adapt] => ReificationSupportApi.this.SyntacticTermIdentExtractor adapted to (name: Internals.this.TermName, isBackquoted: Boolean)Int...
+|    |    |    |    |    |    \-> (name: reflect.runtime.universe.TermName, isBackquoted: Boolean)reflect.runtime.universe.Ident
+|    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.TermName("printl... : pt=reflect.runtime.universe.TermName BYVALmode-EXPRmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.TermName BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |-- scala.reflect.runtime.`package`.universe.TermName.apply BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |    \-> (s: String)reflect.runtime.universe.TermName
+|    |    |    |    |    |    |    [adapt] => Names.this.TermNameExtractor adapted to (s: String)Names.this.TermName
+|    |    |    |    |    |    |    \-> (s: String)reflect.runtime.universe.TermName
+|    |    |    |    |    |    |-- "println" : pt=String BYVALmode-EXPRmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    \-> String("println")
+|    |    |    |    |    |    \-> reflect.runtime.universe.TermName
+|    |    |    |    |    |-- false : pt=Boolean BYVALmode-EXPRmode (silent: method test in Wrap) 
+|    |    |    |    |    |    \-> Boolean(false)
+|    |    |    |    |    \-> reflect.runtime.universe.Ident
+|    |    |    |    |-- scala.collection.immutable.List(scala.collection.immutabl... : pt=List[List[reflect.runtime.universe.Tree]] BYVALmode-EXPRmode (silent: method test in Wrap) 
+|    |    |    |    |    |-- scala.collection.immutable.List BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |-- scala.collection.immutable EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |-- scala.collection EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |    |-- scala EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |    |    \-> scala.type
+|    |    |    |    |    |    |    |    \-> collection.type
+|    |    |    |    |    |    |    \-> collection.immutable.type
+|    |    |    |    |    |    |-- scala.collection.immutable.List.apply BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    [adapt] [A](elems: A*)CC[A] adapted to [A](elems: A*)CC[A]
+|    |    |    |    |    |    |    \-> (elems: A*)List[A]
+|    |    |    |    |    |    [adapt] scala.collection.immutable.List.type adapted to [A](elems: A*)CC[A]
+|    |    |    |    |    |    \-> (elems: A*)List[A]
+|    |    |    |    |    |-- scala.collection.immutable.List(t) : pt=List[reflect.runtime.universe.Tree] BYVALmode-EXPRmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |-- scala.collection.immutable.List BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |-- scala.collection.immutable EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |    |-- scala.collection EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |    |    |-- scala EXPRmode-POLYmode-QUALmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |    |    |    \-> scala.type
+|    |    |    |    |    |    |    |    |    \-> collection.type
+|    |    |    |    |    |    |    |    \-> collection.immutable.type
+|    |    |    |    |    |    |    |-- scala.collection.immutable.List.apply BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) 
+|    |    |    |    |    |    |    |    [adapt] [A](elems: A*)CC[A] adapted to [A](elems: A*)CC[A]
+|    |    |    |    |    |    |    |    \-> (elems: A*)List[A]
+|    |    |    |    |    |    |    [adapt] scala.collection.immutable.List.type adapted to [A](elems: A*)CC[A]
+|    |    |    |    |    |    |    \-> (elems: A*)List[A]
+|    |    |    |    |    |    solving for (A: ?A)
+|    |    |    |    |    |    \-> List[reflect.runtime.universe.Tree]
+|    |    |    |    |    solving for (A: ?A)
+|    |    |    |    |    \-> List[List[reflect.runtime.universe.Tree]]
+|    |    |    |    \-> reflect.runtime.universe.Tree
+|    |    |    [adapt] [A >: Any](args: A*)Quasiquotes.this.Tree adapted to (tree: Internals.this.Tree, argss: List[List[Internals.th...
+|    |    |    \-> reflect.runtime.universe.Tree
+|    |    \-> [def test] (t: reflect.runtime.universe.Tree)reflect.runtime.universe.Tree
+|    \-> [class Wrap] Wrap
+[[syntax trees at end of                     typer]] // <console>
+package <empty> {
+  class Wrap extends scala.AnyRef {
+    def <init>(): Wrap = {
+      Wrap.super.<init>();
+      ()
+    };
+    import scala.reflect.runtime.`package`.universe._;
+    def test(t: reflect.runtime.universe.Tree): reflect.runtime.universe.Tree = scala.reflect.runtime.`package`.universe.internal.reificationSupport.SyntacticApplied.apply(scala.reflect.runtime.`package`.universe.internal.reificationSupport.SyntacticTermIdent.apply(scala.reflect.runtime.`package`.universe.TermName.apply("println"), false), scala.collection.immutable.List.apply[List[reflect.runtime.universe.Tree]](scala.collection.immutable.List.apply[reflect.runtime.universe.Tree](t)))
+  }
+}
+
+|-- scala.runtime.ScalaRunTime.wrapRefArray[List[reflect.runt... EXPRmode (site: method test in Wrap) implicits disabled
+|    |-- scala.runtime.ScalaRunTime.wrapRefArray[List[reflect.runt... BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) implicits disabled
+|    |    |-- scala.runtime.ScalaRunTime.wrapRefArray BYVALmode-EXPRmode-FUNmode-POLYmode-TAPPmode (silent: method test in Wrap) implicits disabled
+|    |    |    \-> [T <: Object](xs: Array[T])scala.collection.immutable.ArraySeq[T]
+|    |    \-> (xs: Array[List[reflect.runtime.universe.Tree]])scala.collection.immutable.ArraySeq[List[reflect.runtime.universe.Tree]]
+|    \-> scala.collection.immutable.ArraySeq[List[reflect.runtime.universe.Tree]]
+|-- scala.runtime.ScalaRunTime.wrapRefArray[reflect.runtime.u... EXPRmode (site: method test in Wrap) implicits disabled
+|    |-- scala.runtime.ScalaRunTime.wrapRefArray[reflect.runtime.u... BYVALmode-EXPRmode-FUNmode-POLYmode (silent: method test in Wrap) implicits disabled
+|    |    |-- scala.runtime.ScalaRunTime.wrapRefArray BYVALmode-EXPRmode-FUNmode-POLYmode-TAPPmode (silent: method test in Wrap) implicits disabled
+|    |    |    \-> [T <: Object](xs: Array[T])scala.collection.immutable.ArraySeq[T]
+|    |    \-> (xs: Array[reflect.runtime.universe.Tree])scala.collection.immutable.ArraySeq[reflect.runtime.universe.Tree]
+|    \-> scala.collection.immutable.ArraySeq[reflect.runtime.universe.Tree]
+
+--------------------------------------------------------------------------------
+
+
+Okay, the parser has desugared the string interpolation to:
+
+  StringContext("println(", ")").q(t)
+
+ Typechecking proceeds as:
+
+  StringContext.apply("println(", ")")  // insert apply call
+  Quasiquote(StringContext.apply(..)).q // implicit conversion to find extension method
+  .SyntacticApplied.apply(...)          // macro expansion
+
+    
+
+--------------------------------------------------------------------------------
+
+
+ Stray Notes:
+
+ - -Xprint:... can be combined with -Xprint-types or various -Yshow-* options. Run `scala -Y` or `scala -X` for a list
+ - The implicit search was logged, see the `[search #1]` instances in the stderr output.
+ - -Ytyper-debug logs show up after the -Xprint:typer output. This was during retypeching in the erasure phase.
+ - parser, typer, and erasure are just some of the phases you'll find in `scalac -Xprint-phases`.
+    

@@ -11,7 +11,6 @@ object _09_JarLister extends App {
   val is = new URL(jarUrl).openStream()
   try Files.copy(is, tempFile, StandardCopyOption.REPLACE_EXISTING) finally is.close()
 
-
   val global = newGlobal(s"-classpath $tempFile")
   import global._
   val akkaPackage = global.rootMirror.getPackage("akka")

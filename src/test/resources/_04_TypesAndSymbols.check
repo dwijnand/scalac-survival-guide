@@ -1,0 +1,49 @@
+
+================================ Types & Symbols ================================
+
+
+// All declarations / definitions give rise to a Symbol.
+final package <empty>
+
+class C extends AnyRef
+
+def foo: Int
+
+def bar(x: Int): Int
+
+x: Int
+
+def <init>(): C
+
+// A lot of common symbols are available in definitions
+List(class String, class Int, method toString, object Array)
+
+// We can also look them up by a fully qualified name
+class String
+
+// Beware the null object NoSymbol
+<none>
+
+// symbolOf: a convenience method that lets us summon a Symbol
+class String
+
+// RefTree: after typechecking, Ident, Select, and Import trees
+// hold the symbol of the entity they reference
+List(<empty>, C.this.foo, C.super.<init>)
+
+// After DefDef, ValDef, ClassDef, ModuleDef, PackageDef trees hold the symbol entity they define
+List((PackageDef,<empty>), (ClassDef,C), (DefDef,foo), (DefDef,bar), (ValDef,x), (DefDef,<init>))
+
+// like symbols, many common types are available in definitions
+Int
+
+Int
+
+// This is a TypeRef, which encapsulates a prefix, an symbol, and a list of type arguments
+TypeRef(ThisType(scala), scala.Int, List())
+
+// Types can also be summoned with the `typeOf` macro
+List(Int, List[String], x.type forSome { val x: String with Int })
+
+// Types have members
+List(method getClass, constructor Int, method ##, method asInstanceOf, method isInstanceOf)

@@ -1,0 +1,16 @@
+
+
+=================================== ToyTyper ====================================
+
+
+// Let's write a typechecker for Scala trees.
+// How hard could it be?
+Int
+
+<error>
+
+Int
+
+String
+
+String

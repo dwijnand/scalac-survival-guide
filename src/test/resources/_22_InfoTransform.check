@@ -1,0 +1,50 @@
+[[syntax trees at end of              addClassName]] // <console>
+package <empty> {
+  class C extends scala.AnyRef {
+    def <init>(): C = {
+      C.super.<init>();
+      ()
+    };
+    def className: String = "C"
+  };
+  class D extends C {
+    def <init>(): D = {
+      D.super.<init>();
+      ()
+    };
+    override def className: String = "D"
+  };
+  class E extends D {
+    def <init>(): E = {
+      E.super.<init>();
+      ()
+    };
+    override def className: String = "E"
+  }
+}
+
+[[syntax trees at end of              addClassName]] // <console>
+package <empty> {
+  class D extends C {
+    def <init>(): D = {
+      D.super.<init>();
+      ()
+    };
+    override def className: String = "D"
+  };
+  class E extends D {
+    def <init>(): E = {
+      E.super.<init>();
+      ()
+    };
+    override def className: String = "E"
+  };
+  class C extends scala.AnyRef {
+    def <init>(): C = {
+      C.super.<init>();
+      ()
+    };
+    def className: String = "C"
+  }
+}
+

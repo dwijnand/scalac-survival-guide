@@ -1,0 +1,52 @@
+package <empty> {
+  final class VC extends Object {
+    <paramaccessor> private[this] val a: Any = _;
+    <stable> <accessor> <paramaccessor> def a(): Any = VC.this.a;
+    override <synthetic> def hashCode(): Int = VC.hashCode$extension(VC.this.a());
+    override <synthetic> def equals(x$1: Object): Boolean = VC.equals$extension(VC.this.a(), x$1);
+    def <init>(a: Object): VC = {
+      VC.this.a = a;
+      VC.super.<init>();
+      ()
+    }
+  };
+  <synthetic> object VC extends Object {
+    final <synthetic> def hashCode$extension($this: Object): Int = $this.hashCode();
+    final <synthetic> def equals$extension($this: Object, x$1: Object): Boolean = {
+  case <synthetic> val x1: Any = x$1;
+  case5(){
+    if (x1.$isInstanceOf[VC]())
+      matchEnd4(true)
+    else
+      case6()
+  };
+  case6(){
+    matchEnd4(false)
+  };
+  matchEnd4(x: Boolean){
+    x
+  }
+}.&&({
+      <synthetic> val VC$1: VC = if (x$1.eq(null))
+        null
+      else
+        x$1.$asInstanceOf[VC]().a();
+      $this.==(VC$1)
+    });
+    def <init>(): VC.type = {
+      VC.super.<init>();
+      ()
+    }
+  };
+  class D extends Object {
+    def foo(): VC => VC = $anonfun();
+    final <static> <artifact> private[this] def $anonfun$foo$1(x: Object): VC = x;
+    def <init>(): D = {
+      D.super.<init>();
+      ()
+    };
+    final <static> <artifact> def $anonfun$foo$1$adapted(x: Object): Object = new VC(D.this.$anonfun$foo$1(x.$asInstanceOf[VC]().a()))
+  }
+}
+List(x: VC)
+List(x: Object)

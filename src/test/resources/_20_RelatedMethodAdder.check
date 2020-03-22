@@ -1,0 +1,27 @@
+[[syntax trees at end of                     typer]] // <console>
+package <empty>{<empty>.type} {
+  class C extends scala.AnyRef {
+    def <init>(): C = {
+      C.super{C.super.type}.<init>{()Object}(){Object};
+      (){Unit}
+    }{Unit};
+    def foo[T](a: String, t: T): T = {
+      scala.Predef.augmentString{(x: String)scala.collection.StringOps}(a{a.type}){scala.collection.StringOps}.reverse{String};
+      t{T}
+    }{T}
+  }
+}
+
+class C {
+  {
+    def foo$impl[T](x$0: Int, a: String, t: T): T = {
+      x$0/*{Int}*/;
+      {
+        scala.Predef.augmentString/*{(x: String)scala.collection.StringOps}*/(a/*{a.type}*/)/*{scala.collection.StringOps}*//*{scala.collection.StringOps}*/.reverse/*{String}*/;
+        t/*{T}*/
+      }/*{T}*/
+    }/*{T}*/;
+    def foo[T](a: scala.Predef.String, t: T): T = C.this/*{C.this.type}*/.foo$impl/*{[T](x$0: Int, a: String, t: T)T}*/[T]/*{(x$0: Int, a: String, t: T)T}*//*{(x$0: Int, a: String, t: T)T}*/(0/*{Int(0)}*/, a/*{String}*/, t/*{T}*/)/*{T}*//*{T}*/;
+    
+  }/*{<null>}*/
+}

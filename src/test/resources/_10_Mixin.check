@@ -1,0 +1,10 @@
+
+
+===================================== Mixin =====================================
+
+object X in trait T
+object X
+<module> <sub_synth>
+object X in class C
+object X
+<method> <module> <stable>

@@ -5,7 +5,7 @@ import scala.collection.mutable
 import scala.tools.nsc.transform.TypingTransformers
 
 object _20_RelatedMethodAdder extends App {
-  val g = newGlobal("-usejavacp -Xprint:typer -Ystop-after:typer -uniqid -Xprint-types")
+  val g = newGlobal("-usejavacp -Xprint:typer -Ystop-after:typer -Xprint-types") // -uniqid
   import g._
    val code = "class C { def foo[T](a: String, t: T): T = {a.reverse; t}}"
 
@@ -94,8 +94,4 @@ object _20_RelatedMethodAdder extends App {
   }
   val tree1 = transformer.transform(tree)
   println(showCode(tree1))
-}
-
-object Test {
-
 }

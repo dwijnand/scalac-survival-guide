@@ -1,0 +1,105 @@
+
+
+================================== JAR Lister ===================================
+
+
+final package akka
+final class akka extends 
+class Main$ extends 
+object Main$
+sealed abstract class NotUsed extends AnyRef
+def <init>(): akka.NotUsed
+case object NotUsed
+sealed abstract class Done extends Serializable
+def <init>(): akka.Done
+case object Done
+class Main extends 
+object Main
+class AkkaVersion$ extends 
+object AkkaVersion$
+class ConfigurationException extends AkkaException
+private[this] val message: String
+private[this] val cause: Throwable
+def <init>(message: <?>, cause: <?>): akka.ConfigurationException
+def <init>(msg: <?>): akka.ConfigurationException
+object ConfigurationException
+class Done$ extends 
+object Done$
+class NotUsed$ extends 
+object NotUsed$
+class anonfun$receive$1 extends 
+object anonfun$receive$1
+class AkkaException extends RuntimeException with Serializable
+private[this] val message: String
+private[this] val cause: Throwable
+def <init>(message: <?>, cause: <?>): akka.AkkaException
+def <init>(msg: <?>): akka.AkkaException
+object AkkaException
+abstract trait OnlyCauseStackTrace extends AnyRef
+def $init$(): Unit
+override def fillInStackTrace(): Throwable
+object OnlyCauseStackTrace
+class Version$ extends 
+object Version$
+class AkkaVersion extends 
+object AkkaVersion
+final class UnsupportedAkkaVersion extends RuntimeException
+private[this] val msg: String
+private[package akka] def <init>(msg: <?>): akka.UnsupportedAkkaVersion
+object UnsupportedAkkaVersion
+class Main$Terminator extends 
+object Main$Terminator
+class Version extends 
+object Version
+final package dispatch
+final class dispatch extends 
+class PinnedDispatcher extends Dispatcher
+private[this] val _configurator: akka.dispatch.MessageDispatcherConfigurator
+private[this] val _actor: akka.actor.ActorCell
+private[this] val _id: String
+private[this] val _shutdownTimeout: scala.concurrent.duration.FiniteDuration
+private[this] val _threadPoolConfig: akka.dispatch.ThreadPoolConfig
+def <init>(_configurator: <?>, _actor: <?>, _id: <?>, _shutdownTimeout: <?>, _threadPoolConfig: <?>): akka.dispatch.PinnedDispatcher
+private def owner: akka.actor.ActorCell
+private def owner_=(x$1: <?>): Unit
+private[this] var owner: akka.actor.ActorCell
+override protected[package akka] def register(actorCell: <?>): Unit
+override protected[package akka] def unregister(actor: <?>): Unit
+object PinnedDispatcher
+class BoundedStablePriorityMailbox$ extends 
+object BoundedStablePriorityMailbox$
+abstract class Mapper[-T <: <?>, +R <: <?>] extends AbstractFunction1[T,R]
+def <init>(): akka.dispatch.Mapper[T,R]
+def apply(parameter: <?>): R
+def checkedApply(parameter: <?>): R
+object Mapper
+class anon$3 extends 
+object anon$3
+class UnboundedDequeBasedMailbox$MessageQueue extends 
+object UnboundedDequeBasedMailbox$MessageQueue
+class BoundedPriorityMailbox$MessageQueue extends 
+object BoundedPriorityMailbox$MessageQueue
+class NonBlockingBoundedMailbox$ extends 
+object NonBlockingBoundedMailbox$
+class BatchingExecutor$AbstractBatch extends 
+object BatchingExecutor$AbstractBatch
+class ForkJoinExecutorConfigurator$ForkJoinExecutorServiceFactory extends 
+object ForkJoinExecutorConfigurator$ForkJoinExecutorServiceFactory
+class japi$BooleanFunctionBridge extends 
+object japi$BooleanFunctionBridge
+abstract trait DequeBasedMessageQueue extends QueueBasedMessageQueue with DequeBasedMessageQueueSemantics
+def queue: java.util.Deque[akka.dispatch.Envelope]
+object DequeBasedMessageQueue
+class DefaultExecutorServiceConfigurator extends ExecutorServiceConfigurator
+private[this] val config: com.typesafe.config.Config
+private[this] val prerequisites: akka.dispatch.DispatcherPrerequisites
+private[this] val fallback: akka.dispatch.ExecutorServiceConfigurator
+def <init>(config: <?>, prerequisites: <?>, fallback: <?>): akka.dispatch.DefaultExecutorServiceConfigurator
+val provider: akka.dispatch.ExecutorServiceFactoryProvider
+private[this] val provider: akka.dispatch.ExecutorServiceFactoryProvider
+def createExecutorServiceFactory(id: <?>, threadFactory: <?>): akka.dispatch.ExecutorServiceFactory
+object DefaultExecutorServiceConfigurator
+class BoundedStablePriorityMailbox$MessageQueue extends 
+object BoundedStablePriorityMailbox$MessageQueue
+class japi extends 
+object japi

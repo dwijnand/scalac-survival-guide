@@ -1,8 +1,9 @@
 package guide
 
-import scala.reflect.macros.blackbox
-import language.experimental._
+import scala.language.reflectiveCalls
+import scala.language.experimental.macros
 
+import scala.reflect.macros.blackbox
 
 /**
   * Split `match { case _=>`
@@ -28,7 +29,6 @@ object MatchSplitter {
   }
   def split[T](t: T): T = macro guide.MatchSplitter.splitMatchBody
 }
-
 
 object _17_MatchSplitter extends App {
   val g = newGlobal("-usejavacp -Xprint:typer")
@@ -59,5 +59,5 @@ object _17_MatchSplitter extends App {
       }: Int);
    */
 
-  result.classLoader.loadClass("C").newInstance().asInstanceOf[{def test(): Unit}].test()
+  result.classLoader.loadClass("C").getDeclaredConstructor().newInstance().asInstanceOf[{def test(): Unit}].test()
 }

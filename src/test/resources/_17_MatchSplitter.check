@@ -1,0 +1,28 @@
+[[syntax trees at end of                     typer]] // <console>
+package <empty> {
+  import guide.MatchSplitter.split;
+  class C extends scala.AnyRef {
+    def <init>(): C = {
+      C.super.<init>();
+      ()
+    };
+    def x: Int = 42;
+    def test(): Unit = {
+      val x: Int = ("" match {
+        case "a" => {
+          def caseBody: Int(12) = 12;
+          caseBody
+        }
+        case "" => {
+          def caseBody: Int = {
+            def foo: Int = C.this.x;
+            foo
+          };
+          caseBody
+        }
+      }: Int);
+      scala.Predef.assert(x.==(42))
+    }
+  }
+}
+

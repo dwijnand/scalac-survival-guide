@@ -1,0 +1,10 @@
+package <empty> {
+  class C extends Object {
+    @deprecated("", "") def foo(a: Int): Int = a;
+    @deprecated <synthetic> def foo$default$1(): Int = 42;
+    def <init>(): C = {
+      C.super.<init>();
+      ()
+    }
+  }
+}

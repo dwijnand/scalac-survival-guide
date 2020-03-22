@@ -1,0 +1,7 @@
+class C {
+  {
+    @unchecked def foo(a: Int = 0) = 0;
+    @unchecked def foo$default$0_sibling = scala.Predef.???;
+    
+  }
+}

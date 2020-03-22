@@ -1,0 +1,16 @@
+
+
+============================ Unshrouding expressions ============================
+
+
+// There a a few handy ways to see what code means
+// Q. What does q"""println($tree)""" mean?
+
+--------------------------------------------------------------------------------
+
+// A. Typecheck it and find out
+{
+  import scala.reflect.runtime.`package`.universe._;
+  def quoteMe(tree: reflect.runtime.universe.Tree): reflect.runtime.universe.Tree = scala.reflect.runtime.`package`.universe.internal.reificationSupport.SyntacticApplied.apply(scala.reflect.runtime.`package`.universe.internal.reificationSupport.SyntacticTermIdent.apply(scala.reflect.runtime.`package`.universe.TermName.apply("println"), false), scala.collection.immutable.List.apply[List[reflect.runtime.universe.Tree]](scala.collection.immutable.List.apply[reflect.runtime.universe.Tree](tree)));
+  ()
+}

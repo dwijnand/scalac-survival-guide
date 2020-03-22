@@ -1,0 +1,24 @@
+
+
+============================ It starts with a tree. =============================
+
+
+// showRaw: print the raw representation of a tree
+Apply(Ident(TermName("println")), List(Literal(Constant("hello world"))))
+
+// show: view as something like source code
+println("hello world")
+
+// showCode: source code that could be re-parsed
+println("hello world")
+
+
+=============================== Tree, meet types ================================
+
+
+scala.Predef.println{(x: Any)Unit}("hello world"{String("hello world")}){Unit}
+
+
+=================== Typecheck + code generation + evaluation ====================
+
+hello world

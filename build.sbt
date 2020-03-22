@@ -12,3 +12,6 @@ libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value
 licenses += "BSD-3-Clause" -> url("http://opensource.org/licenses/BSD-3-Clause")
 
 fork in run := true
+
+test     in Test := (runMain in Test).toTask(" guide.Tests").value
+testOnly in Test := (runMain in Test).evaluated

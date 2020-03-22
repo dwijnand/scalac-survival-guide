@@ -1,8 +1,8 @@
 package guide
 
-import scala.collection.immutable.ListMap
+import scala.language.reflectiveCalls
+
 import scala.reflect.macros.blackbox
-import scala.tools.nsc.{Global, Mode}
 
 object InlineMacro {
   def inlineMap(c: blackbox.Context)(t: c.Tree): c.Tree = {
@@ -136,5 +136,5 @@ object _16_FunctionInline extends App {
       |   }
       | }""".stripMargin, g).assertNoErrors()
 
-  result.classLoader.loadClass("C").newInstance().asInstanceOf[{def test(): Unit}].test()
+  result.classLoader.loadClass("C").getDeclaredConstructor().newInstance().asInstanceOf[{def test(): Unit}].test()
 }

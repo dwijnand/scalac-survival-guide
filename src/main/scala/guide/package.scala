@@ -1,9 +1,7 @@
-import scala.annotation.elidable
 import scala.reflect.internal.util.ScalaClassLoader
 import scala.reflect.io.File
-import scala.tools.nsc.{Global, Phase, Settings, SubComponent}
+import scala.tools.nsc.{Global, Phase, Settings, SubComponent, interactive}
 import scala.tools.nsc.reporters.StoreReporter
-import scala.tools.reflect.ReflectMain._
 
 package object guide {
   val Width = 80
@@ -16,7 +14,10 @@ package object guide {
     val diff = Width - s.length - 1
     val l = diff / 2
     val r = diff - l
-    "\n" + (filler.toString * l) + " " + s + " " + (filler.toString * r) + "\n"
+    val pad = filler.toString
+    val lPad = pad * l
+    val rPad = pad * r
+    s"\n$lPad $s $rPad\n"
   }
 
   var lastWasComment = false
@@ -30,7 +31,7 @@ package object guide {
 
   def newGlobal(options: String = "", extraPhases: Global => List[(SubComponent, String)] = _ => Nil): Global = {
     val settings = new Settings()
-    settings.processArgumentString("-usejavacp " + options)
+    settings.processArgumentString(s"-usejavacp $options")
     val reporter = new StoreReporter(settings)
     val g = new Global(settings, reporter) {
       def addToPhasesSet1(comp: SubComponent, desc: String) = addToPhasesSet(comp, desc)
@@ -39,41 +40,43 @@ package object guide {
     new g.Run
     g
   }
-  def newInteractiveGlobal(options: String = ""): scala.tools.nsc.interactive.Global = {
+
+  def newInteractiveGlobal(options: String = ""): interactive.Global = {
     val settings = new Settings()
     settings.processArgumentString("-usejavacp " + options)
     val reporter = new StoreReporter(settings)
-    val g = new scala.tools.nsc.interactive.Global(settings, reporter) {
-      override def assertCorrectThread(): Unit = ()
+    val g = new interactive.Global(settings, reporter) {
+      override def assertCorrectThread() = ()
     }
     new g.TyperRun
     g
   }
-  def newSubcomponent(g: Global, rightAfter: String, desc: String = "test")(f: ((g.type, g.CompilationUnit) => Unit)): (SubComponent, String) = {
-    import g._
-    val x = new SubComponent {
-      override def newPhase(prev: Phase): Phase = new g.GlobalPhase(prev) {
-        override def apply(unit: g.CompilationUnit): Unit = f(g, unit)
-        override def name: String = phaseName
+
+  def newSubComponent(g: Global, rightAfter: String, desc: String = "test")(f: ((g.type, g.CompilationUnit) => Unit)): (SubComponent, String) = {
+    val sc = new SubComponent {
+      val global         = g
+      val runsAfter      = rightAfter :: Nil
+      val phaseName      = desc
+      val runsRightAfter = Some(rightAfter)
+
+      def newPhase(prev: Phase): Phase = new g.GlobalPhase(prev) {
+        def name                           = phaseName
+        def apply(unit: g.CompilationUnit) = f(g, unit)
       }
-      override val global: Global = g
-      override val runsAfter: List[String] = rightAfter :: Nil
-      override val phaseName: String = desc
-      override val runsRightAfter: Option[String] = Some(rightAfter)
     }
-    (x, desc)
+
+    (sc, desc)
   }
 
   def compile(code: String, global: Global = newGlobal()): CompileResult[global.type] = {
     val run = new global.Run
     global.reporter.reset()
-    val source = global.newSourceFile(code)
-    run.compileSources(source :: Nil)
+    run.compileSources(global.newSourceFile(code) :: Nil)
     val unit = run.units.toList.head
     val tree = unit.body
     val infos = global.reporter match {
       case sr: StoreReporter => sr.infos
-      case _ => Nil
+      case _                 => Nil
     }
     new global.Run
     new CompileResult[global.type](global, global.reporter.hasErrors, unit, tree, infos.toList)
@@ -105,7 +108,7 @@ package object guide {
     p(msg)
     indent += 1
     val result = try body finally indent -= 1
-    p("=> " + result)
+    p(s"=> $result")
     result
   }
 }

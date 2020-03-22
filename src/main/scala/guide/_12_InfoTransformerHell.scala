@@ -12,5 +12,4 @@ object _12_InfoTransformerHell extends App {
   }.head
   println(exitingUncurry(sym.info.params.map(_.defString))) // List(x: VC)
   println(exitingPostErasure(exitingUncurry(sym.info.params).map(_.defString))) // List(x: Object)
-
 }

@@ -28,7 +28,7 @@ class ToyTyper[G <: Global](val g: G) {
     }
     def inExprMode = copy(exprMode = true)
   }
-  def typed(t: Tree) = typedTree(t, new State(false))
+  def typed(t: Tree) = typedTree(t, State(false))
   private def typedTrees(ts: List[Tree], state: State) = ts map (t => typedTree(t, state))
   private def typedTree(t: Tree, state: State): Type = {
     def result = t match {

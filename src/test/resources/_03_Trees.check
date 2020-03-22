@@ -1,0 +1,26 @@
+
+
+=========================== More ways to create trees ===========================
+
+
+// We can also parse source code into a tree
+hello parser
+hello quasiquote
+// This is called quasiquoting. Composing trees by splicing them into quasiquotes
+println({
+  println("hello quasiquote");
+  println("hello quasiquote");
+  "okay"
+})
+
+// Wait, what was that q doing?
+// We'll dive into that one shortly!
+// The structure of trees can be explored with a few combinators, like in the collections:
+// foreach 
+// collect 
+List(println)
+
+scala.Predef.println("hello parser") does call println
+
+// For more control over the recursion, use a Traverser
+// ... and, to generate a new tree, use a Transformer

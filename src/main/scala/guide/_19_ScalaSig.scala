@@ -2,7 +2,6 @@ package guide
 
 import scala.util.matching.Regex
 
-
 object _19_ScalaSig extends App {
   private val ModuleClassName: Regex = """(.*)\$""".r
   private val LambdaClassName: Regex = """(.*?)\$?\$\$Lambda.*""".r
